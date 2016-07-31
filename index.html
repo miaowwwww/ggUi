@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='ggApp'>
+<head>
+  <meta charset="UTF-8">
+  <title>gg.ui</title>
+  <script type="text/javascript" src='../AngularJs.js'></script>
+  <script type="text/javascript">
+    angular.module('ggApp', ['ggUi'])
+      .controller('ggCtrl', ['$scope','ggPopup', function($scope,ggPopup){
+        $scope._toast = function(){
+          ggPopup.toast({text:'试芬碍事发斯蒂芬阿萨f德一下'})
+            .then(function(){
+              console.log('laile')
+            })
+        }
+        $scope._confirm = function(){
+          ggPopup.confirm('确定点我？',{confirmBtn:'确定',cancelBtn:'no'})
+            .then(function(){
+              console.log('resolve');
+            },function(flag){
+              if(flag){
+                console.log('rejece')
+              }else{
+                console.log('close')
+              }
+            })
+        }
+        $scope._prompt = function(){
+          ggPopup.prompt('审判',
+            {
+              confirmBtn:'通过',
+              cancelBtn:'不通过',
+              isTextNeed:true,
+              textRows:4          
+            },'请慎重决定')
+            .then(function(data){
+              console.log('confirm',data);
+            },function(data){
+              console.log('cancel',data)
+            },function(data){
+              console.log('notify',data)
+            })
+        }
+      }])
+  </script>
+  <script type="text/javascript" src='ggUi.js'></script>
+  <style type="text/css">
+    /*****************toast*******************/
+    #ggToast{
+      display: block;
+      position: fixed;
+      min-width: 100px;
+      min-height: 35px;
+      max-width: 160px;
+      z-index: 1000;
+      border-radius: 6px;
+      top: 50%;
+      left: 50%;
+      box-shadow: rgba(0, 0, 0, 0.298039) 0px 0px 2px 3px;
+      text-align: center;
+      color: rgb(0, 0, 0);
+      font-size: 14px;
+      padding: 10px;
+      white-space: normal;
+      background: rgba(0, 0, 0, 0.6);
+      animation: GGToastAnimate 0.2s ease-out forwards;
+    }
+    @keyframes GGToastAnimate
+    {
+      from {
+        opacity: 0;
+        filter: alpha(opacity=0);
+        transform: translate3d(-50%, -150%, 0px);
+      }
+      50% {
+        transform: translate3d(-50%, -20%, 0px);
+      }
+      to {
+        opacity: 0.8;
+        filter: alpha(opacity=80);
+        transform: translate3d(-50%, -50%, 0px);
+      }
+    }
+    /****************confirm*******************/
+    #gg_bg_black{position: fixed;top: 0;right: 0;bottom:0;left: 0;background-color: rgba(0,0,0,0.7);}
+    #ggConfirm{
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate3d(-50%,-50%,0);
+      -webkit-transform: translate3d(-50%,-50%,0);
+      width: 80%;
+      min-height: 60px;
+      background-color: #fff;
+      border-radius: 5px;
+    }
+    #ggConfirm .top{
+      border-bottom:1px solid #ccc;
+    }
+    #ggConfirm .top a{
+      position: absolute;
+      right: 0;
+      top: 0; 
+      transform: translate3d(50%,-50%,0) rotate(-45deg) ;
+      -webkit-transform: translate3d(50%,-50%,0) rotate(-45deg);
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background-color: rgba(0,0,0,1);
+      text-align: center;
+      color:#fff;
+      font-size: 20px;
+    }
+    #ggConfirm .top a:before{
+      content: "";
+      display: block;
+      width: 100%;
+      height: 1px;
+      position: absolute;
+      top: 10px;
+      background-color: #fff;
+    }
+    #ggConfirm .top a:after{
+      content: "";
+      display: block;
+      width: 1px;
+      height: 100%;
+      position: absolute;
+      right: 10px;
+      background-color: #fff;
+    }
+    #ggConfirm .top .title{
+      margin:10px 0 5px;
+      padding:5px;
+      text-align: center;
+      font-size: 16px;
+      height:20px;
+    }
+    #ggConfirm .describtion{
+      text-align: center;
+      line-height: 26px;
+      font-size: 14px;
+      padding:5px 10px;
+    }
+    #ggConfirm .btns{
+      margin-top: 5px;
+      border-top: 1px solid #ccc;
+    }
+    #ggConfirm .btns a{
+      display: inline-block;
+      width:49%;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-size: 16px;
+    }
+    #ggConfirm .btns a:first-child{
+      border-right: 1px solid #ccc;
+    }
+    /*prompt沿用了confirm的样式*/
+    #ggConfirm textarea{
+      width: 90%;
+      resize: none;
+      padding:5px;
+      margin:5px auto;
+      box-sizing: border-box;
+      display: block;
+    }
+    #ggConfirm textarea:focus{
+      outline: none;
+    }
+  </style>
+</head>
+<body ng-controller="ggCtrl">
+  <button ng-click="_toast()">toast</button>
+  <button ng-click="_confirm()">confirm</button>
+  <button ng-click="_prompt()">_prompt</button>
+</body>
+</html>
